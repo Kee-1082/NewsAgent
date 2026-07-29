@@ -13,6 +13,11 @@ SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
 EMAIL_TO = os.getenv("EMAIL_TO")
 EMAIL_FROM = os.getenv("EMAIL_FROM")
 
+TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
+TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
+TWILIO_WHATSAPP_FROM = os.getenv("TWILIO_WHATSAPP_FROM")
+WHATSAPP_TO = os.getenv("WHATSAPP_TO")
+
 ARTICLES_FILE = os.path.join("data", "articles.json")
 SOURCES_FILE = os.path.join("data", "sources.json")
 

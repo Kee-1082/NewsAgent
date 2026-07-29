@@ -13,7 +13,7 @@ def send_digest(html_content, subject=None):
 
     if not subject:
         from datetime import datetime
-        subject = f"Daily News Digest — {datetime.now().strftime('%b %d, %Y')}"
+        subject = f"Daily News Digest - {datetime.now().strftime('%b %d, %Y')}"
 
     message = Mail(
         from_email=Email(EMAIL_FROM),

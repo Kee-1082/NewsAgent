@@ -14,7 +14,7 @@ Build an automated AI agent that scrapes news from major media channels and soci
 - Deduplicate articles by URL
 - Assemble a formatted HTML email digest with category headers
 - Include `[Read more]` hyperlinks back to original source for every article
-- Send via email daily at 6:30 AM IST
+- Send via email daily at 8:30 AM IST
 - Sports section: only major events (World Cup finals, major tournament wins, record-breaking moments)
 
 ### Non-Functional

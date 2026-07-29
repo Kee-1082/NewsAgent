@@ -98,7 +98,7 @@ def deduplicate(articles):
         if a["id"] not in seen:
             seen.add(a["id"])
             unique.append(a)
-    print(f"[fetch] Dedup: {len(articles)} → {len(unique)}")
+    print(f"[fetch] Dedup: {len(articles)} -> {len(unique)}")
     return unique
 
 

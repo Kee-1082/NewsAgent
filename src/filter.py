@@ -52,7 +52,7 @@ def filter_articles(articles):
         filtered.append(a)
 
     print(f"[filter] Sports rejected (non-major): {rejected_sports}")
-    print(f"[filter] {len(articles)} → {len(filtered)} after filtering")
+    print(f"[filter] {len(articles)} -> {len(filtered)} after filtering")
 
     grouped = {cat: [] for cat in CATEGORIES}
     for a in filtered:
@@ -62,7 +62,7 @@ def filter_articles(articles):
 
     for cat in grouped:
         grouped[cat] = sorted(
-            grouped[cat], key=lambda x: x.get("reputation", 5), reverse=True
+            grouped[cat], key=lambda x: x.get("published_at", ""), reverse=True
         )[:MAX_ARTICLES_PER_CATEGORY]
 
     result = []

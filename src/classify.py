@@ -3,28 +3,41 @@ from src.config import OPENCODE_API_KEY, OPENCODE_BASE_URL, OPENCODE_MODEL, CATE
 
 client = OpenAI(api_key=OPENCODE_API_KEY, base_url=OPENCODE_BASE_URL)
 
-CATEGORY_PROMPT = f"""You are a news classifier. Given a news headline and snippet, classify it into exactly one of these categories:
-{', '.join(CATEGORIES)}
+CATEGORY_GUIDE = """
+- trending: viral social media topics, internet culture, widely-discussed buzz
+- financial: stock markets, economy, banking, crypto, budgets, corporate earnings
+- indian: news specifically about India — politics, policy, society, entertainment
+- international: global news outside India — diplomacy, conflicts, world events
+- social_media: platform-specific news (Twitter/X, Instagram, TikTok, Reddit), influencer culture
+- technological: AI, software, gadgets, science, space, cybersecurity
+- political: election campaigns, legislation, government affairs, party politics
+- sports: competitive sports, tournaments, athletes, records
+"""
 
-Respond with ONLY the category name, nothing else."""
+CATEGORY_PROMPT = f"""You are a news classifier. Given a news article, classify it into exactly one category.
+
+Categories:{CATEGORY_GUIDE}
+Respond with ONLY the category name. If unsure, choose the best fit."""
 
 
-def classify_article(title, snippet):
-    if not title and not snippet:
+def classify_article(title, snippet, body=""):
+    if not title and not snippet and not body:
         return "trending"
+
+    content = f"Title: {title}\n\n"
+    if body:
+        content += f"Body: {body[:1000]}\n\n"
+    content += f"Snippet: {snippet[:500]}" if snippet else ""
 
     try:
         resp = client.chat.completions.create(
             model=OPENCODE_MODEL,
             messages=[
                 {"role": "system", "content": CATEGORY_PROMPT},
-                {
-                    "role": "user",
-                    "content": f"Title: {title}\nSnippet: {snippet[:500]}",
-                },
+                {"role": "user", "content": content},
             ],
             temperature=0.1,
-            max_tokens=20,
+            max_tokens=500,
         )
         label = resp.choices[0].message.content.strip().lower()
         if label in CATEGORIES:
@@ -37,6 +50,8 @@ def classify_article(title, snippet):
 
 def classify_all(articles):
     for a in articles:
-        a["category"] = classify_article(a.get("title", ""), a.get("snippet", ""))
+        a["category"] = classify_article(
+            a.get("title", ""), a.get("snippet", ""), a.get("body", "")
+        )
     print(f"[classify] Classified {len(articles)} articles")
     return articles

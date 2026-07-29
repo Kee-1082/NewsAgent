@@ -18,7 +18,7 @@ def summarize_article(title, body):
                 {"role": "user", "content": text},
             ],
             temperature=0.3,
-            max_tokens=200,
+            max_tokens=1000,
         )
         return resp.choices[0].message.content.strip()
     except Exception as e:
